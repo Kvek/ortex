@@ -1,25 +1,17 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { Container, AppHeader, Content } from "./App.styles";
+import { Login } from "./Login";
+import { Logo } from "./Logo";
 
 const App = () => (
-  <div className="App">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-        Edit <code>src/App.tsx</code> and save to reload.
-      </p>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn React
-      </a>
-      <div />
-    </header>
-  </div>
+  <Container>
+    <AppHeader>
+      <Logo />
+    </AppHeader>
+
+    <Content>
+      <Login />
+    </Content>
+  </Container>
 );
 
 export default App;
