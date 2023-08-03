@@ -68,18 +68,20 @@ export const InputContainer = styled.div`
   flex: 2;
   justify-content: center;
 
-  div {
-    transition: max-height 0.15s linear;
+  @media ${device.tablet} {
+    div {
+      transition: max-height 0.15s linear;
 
-    &.showPasswordInput {
-      max-height: 85px;
-      visibility: visible;
-    }
+      &.showPasswordInput {
+        max-height: 85px;
+        visibility: visible;
+      }
 
-    &.hidePasswordInput {
-      max-height: 0;
-      overflow: hidden;
-      visibility: hidden;
+      &.hidePasswordInput {
+        max-height: 0;
+        overflow: hidden;
+        visibility: hidden;
+      }
     }
   }
 `;
@@ -109,6 +111,20 @@ export const Button = styled.button<ButtonProps>`
   align-items: center;
   justify-content: center;
   user-select: none;
+
+  &.continue {
+    display: none;
+
+    @media ${device.tablet} {
+      display: flex;
+    }
+  }
+
+  &.showLogin {
+    @media ${device.tablet} {
+      display: none;
+    }
+  }
 
   svg {
     margin: 0 5px;

@@ -115,15 +115,19 @@ export const Login = () => {
           </InputContainer>
 
           <ButtonContainer>
-            {showPasswordInput ? (
-              <Button disabled={!password}>
-                Login
-                <LoginIcon height={14} />
-              </Button>
-            ) : (
+            <Button
+              disabled={!password}
+              className={classNames({ ["showLogin"]: !showPasswordInput })}
+            >
+              Login
+              <LoginIcon height={14} />
+            </Button>
+
+            {!showPasswordInput && (
               <Button
                 $buttonType={disabled ? "disabled" : "primary"}
                 onClick={updateShowPasswordInputHanlder}
+                className={"continue"}
               >
                 Continue
                 <ContinueIcon height={10} />
