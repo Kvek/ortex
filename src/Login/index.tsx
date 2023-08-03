@@ -116,7 +116,7 @@ export const Login = () => {
 
           <ButtonContainer>
             <Button
-              disabled={!password}
+              $buttonType={!password ? "disabled" : "primary"}
               className={classNames({ ["showLogin"]: !showPasswordInput })}
             >
               Login
