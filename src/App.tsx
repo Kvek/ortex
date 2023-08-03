@@ -1,5 +1,4 @@
-import { Container, AppHeader, Content } from "./App.styles";
-import { Login } from "./Login";
+import { Container, Content, AppHeader } from "./App.styles";
 import { Logo } from "./Logo";
 
 const App = () => (
@@ -8,9 +7,7 @@ const App = () => (
       <Logo />
     </AppHeader>
 
-    <Content>
-      <Login />
-    </Content>
+    <Content />
   </Container>
 );
 

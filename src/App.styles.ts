@@ -1,17 +1,35 @@
 import { styled } from "styled-components";
+import { device } from "./constants";
 
 export const Container = styled.div`
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 1em;
+  background: rgb(0, 0, 0, 0.95);
+
+  @media ${device.tablet} {
+    background: none;
+  }
 `;
 
 export const AppHeader = styled.header`
-  height: 100px;
+  display: flex;
+  padding: 1em;
+  border-bottom: 1px solid #ffffff24;
+  box-sizing: border-box;
+
+  @media ${device.tablet} {
+    display: none;
+  }
 `;
 
 export const Content = styled.div`
   height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  @media ${device.tablet} {
+    flex-direction: row;
+  }
 `;
