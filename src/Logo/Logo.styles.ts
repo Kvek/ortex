@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import styled from "styled-components/macro";
 import { device } from "../constants";
 
 export const Image = styled.div`
@@ -6,18 +6,18 @@ export const Image = styled.div`
   align-items: center;
 
   img {
-    width: 175px;
     user-select: none;
+    width: 150px;
 
-    @media ${device.mobile} {
-      width: 150px;
+    @media ${device.tablet} {
+      width: 175px;
     }
 
     &.logo {
-      width: 60px;
+      width: 30px;
 
-      @media ${device.mobile} {
-        width: 30px;
+      @media ${device.tablet} {
+        width: 60px;
       }
     }
   }

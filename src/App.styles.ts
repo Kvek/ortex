@@ -1,11 +1,11 @@
-import { styled } from "styled-components";
+import styled from "styled-components/macro";
 import { device } from "./constants";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: rgb(0, 0, 0, 0.95);
+  background: rgb(0, 0, 0);
 
   @media ${device.tablet} {
     background: none;

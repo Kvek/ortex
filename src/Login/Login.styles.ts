@@ -11,11 +11,10 @@ export const LoginContainer = styled.div`
   justify-content: center;
   color: #fff;
   background-color: rgb(0, 0, 0, 0.95);
-  flex: 3;
+  height: 100%;
   width: 100%;
 
   @media ${device.tablet} {
-    height: 100%;
     flex: 1;
   }
 `;
