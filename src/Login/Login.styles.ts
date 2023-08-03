@@ -64,7 +64,6 @@ export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1em 0;
-  overflow: hidden;
   flex: 2;
   justify-content: center;
 
@@ -97,9 +96,8 @@ export const Button = styled.button<ButtonProps>`
   font-size: 14px;
   border: 1px solid #ffffff24;
   background: none;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(255, 255, 255);
   min-width: 150px;
-  max-width: 200px;
   width: 100%;
   padding: 10px;
   margin: 10px;
@@ -179,4 +177,14 @@ export const Button = styled.button<ButtonProps>`
       `;
     }
   }}
+`;
+
+export const MessageContainer = styled.p`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: capitalize;
 `;

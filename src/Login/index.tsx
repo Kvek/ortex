@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { ChangeEvent, useEffect, useState } from "react";
 import {
   ContinueIcon,
@@ -5,6 +6,7 @@ import {
   EyeOpenIcon,
   LoginIcon,
   PasswordIcon,
+  ResetIcon,
   UserIcon,
 } from "../Icons";
 import { Input } from "../Input";
@@ -18,19 +20,26 @@ import {
   LogoContainer,
   LoginFormWrapper,
   Button,
+  MessageContainer,
 } from "./Login.styles";
 import classNames from "classnames";
 
+const disabledRegexStrTest = (str: string) =>
+  !/^[\w-.]+@([\w-]+\.)+[\w-]{2,10}$/.test(str);
+
 export const Login = () => {
   const [passwordHidden, setPasswordHidden] = useState(true);
+  const [displayMessage, setDisplayMessage] = useState("");
+  const [showResetForm, setShowResetForm] = useState(false);
   const [showPasswordInput, setshowPasswordInput] = useState(false);
-  const [credentials, serCredentials] = useState({
+  const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
 
+  const [resetEmail, setResetEmail] = useState("");
+
   const { email, password } = credentials;
-  const disabled = !/^[\w-.]+@([\w-]+\.)+[\w-]{2,10}$/.test(email);
 
   const togglePasswordIcon = passwordHidden ? (
     <EyeCloseIcon width={16} onClick={() => setPasswordHidden((p) => !p)} />
@@ -43,11 +52,19 @@ export const Login = () => {
       target: { value, name },
     } = e;
 
-    serCredentials((prev) => ({ ...prev, [name]: value }));
+    setCredentials((prev) => ({ ...prev, [name]: value }));
   };
 
   const updateShowPasswordInputHanlder = () => {
     setshowPasswordInput(!!email);
+  };
+
+  const passwordResetHandler = () => {
+    setDisplayMessage("Reset email sent. Please check your inbox.");
+  };
+
+  const toggleResetForm = () => {
+    setShowResetForm(true);
   };
 
   useEffect(() => {
@@ -56,7 +73,7 @@ export const Login = () => {
        * resetting password on email change
        */
       if (password) {
-        serCredentials((prev) => ({ ...prev, password: "" }));
+        setCredentials((prev) => ({ ...prev, password: "" }));
       }
     } else {
       /**
@@ -65,6 +82,64 @@ export const Login = () => {
       setshowPasswordInput(!!email);
     }
   }, [email]);
+
+  const resetForm = (
+    <div>
+      <Input
+        name="resetEmail"
+        value={resetEmail}
+        placeholder="Email"
+        id="resetEmail"
+        type="email"
+        label="Enter the Email associated with your account"
+        iconBefore={<UserIcon height={16} />}
+        onChange={({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
+          setResetEmail(value)
+        }
+      />
+    </div>
+  );
+
+  const forms = showResetForm ? (
+    resetForm
+  ) : (
+    <>
+      <div>
+        <Input
+          name="email"
+          value={email}
+          placeholder="Enter Email"
+          id="email"
+          type="email"
+          label="email"
+          iconBefore={<UserIcon height={16} />}
+          onChange={updateCredentialHandler}
+        />
+
+        <div
+          className={classNames({
+            ["showPasswordInput"]: showPasswordInput,
+            ["hidePasswordInput"]: !showPasswordInput,
+          })}
+        >
+          <Input
+            focus={showPasswordInput}
+            name="password"
+            value={password}
+            placeholder="Enter Password"
+            label="password"
+            id="password"
+            type={passwordHidden ? "password" : "text"}
+            iconBefore={<PasswordIcon height={16} />}
+            iconAfter={password && togglePasswordIcon}
+            onChange={updateCredentialHandler}
+          />
+        </div>
+      </div>
+    </>
+  );
+
+  const message = <MessageContainer>{displayMessage}</MessageContainer>;
 
   return (
     <LoginContainer>
@@ -80,59 +155,48 @@ export const Login = () => {
               ["hidePasswordInput"]: !showPasswordInput,
             })}
           >
-            <form onSubmit={console.log}>
-              <Input
-                name="email"
-                value={email}
-                placeholder="Enter Email"
-                id="email"
-                type="email"
-                label="email"
-                iconBefore={<UserIcon height={16} />}
-                onChange={updateCredentialHandler}
-              />
-
-              <div
-                className={classNames({
-                  ["showPasswordInput"]: showPasswordInput,
-                  ["hidePasswordInput"]: !showPasswordInput,
-                })}
-              >
-                <Input
-                  focus={showPasswordInput}
-                  name="password"
-                  value={password}
-                  placeholder="Enter Password"
-                  label="password"
-                  id="password"
-                  type={passwordHidden ? "password" : "text"}
-                  iconBefore={<PasswordIcon height={16} />}
-                  iconAfter={password && togglePasswordIcon}
-                  onChange={updateCredentialHandler}
-                />
-              </div>
-            </form>
+            {displayMessage ? message : forms}
           </InputContainer>
 
           <ButtonContainer>
-            <Button
-              $buttonType={!password ? "disabled" : "primary"}
-              className={classNames({ ["showLogin"]: !showPasswordInput })}
-            >
-              Login
-              <LoginIcon height={14} />
-            </Button>
+            {!showResetForm ? (
+              <>
+                <Button
+                  $buttonType={!password ? "disabled" : "primary"}
+                  className={classNames({ ["showLogin"]: !showPasswordInput })}
+                >
+                  Login
+                  <LoginIcon height={14} />
+                </Button>
+                {!showPasswordInput && (
+                  <Button
+                    $buttonType={
+                      disabledRegexStrTest(email) ? "disabled" : "primary"
+                    }
+                    onClick={updateShowPasswordInputHanlder}
+                    className={"continue"}
+                  >
+                    Continue
+                    <ContinueIcon height={10} />
+                  </Button>
+                )}
 
-            {!showPasswordInput && (
+                <Button onClick={toggleResetForm}>
+                  Reset password
+                  <ResetIcon height={14} />
+                </Button>
+              </>
+            ) : !displayMessage ? (
               <Button
-                $buttonType={disabled ? "disabled" : "primary"}
-                onClick={updateShowPasswordInputHanlder}
-                className={"continue"}
+                onClick={passwordResetHandler}
+                $buttonType={
+                  disabledRegexStrTest(resetEmail) ? "disabled" : "primary"
+                }
               >
-                Continue
+                Continue with password reset
                 <ContinueIcon height={10} />
               </Button>
-            )}
+            ) : null}
           </ButtonContainer>
         </LoginFormContainer>
       </LoginFormWrapper>
