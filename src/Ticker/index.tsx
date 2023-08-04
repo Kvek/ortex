@@ -46,7 +46,7 @@ type PriceStreamData = {
 };
 
 const subject = webSocket(
-  "ws://stream.tradingeconomics.com/?client=guest:guest"
+  "wss://stream.tradingeconomics.com/?client=guest:guest"
 );
 
 const percentageChange = ({
