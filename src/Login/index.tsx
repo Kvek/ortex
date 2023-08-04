@@ -6,7 +6,6 @@ import {
   EyeOpenIcon,
   LoginIcon,
   PasswordIcon,
-  ResetIcon,
   UserIcon,
 } from "../Icons";
 import { Input } from "../Input";
@@ -21,6 +20,7 @@ import {
   LoginFormWrapper,
   Button,
   MessageContainer,
+  Header3,
 } from "./Login.styles";
 import classNames from "classnames";
 
@@ -63,8 +63,8 @@ export const Login = () => {
     setDisplayMessage("Reset email sent. Please check your inbox.");
   };
 
-  const toggleResetForm = () => {
-    setShowResetForm(true);
+  const toggleResetForm = (status: boolean) => {
+    setShowResetForm(status);
   };
 
   useEffect(() => {
@@ -104,7 +104,7 @@ export const Login = () => {
     resetForm
   ) : (
     <>
-      <div>
+      <form>
         <Input
           name="email"
           value={email}
@@ -135,7 +135,7 @@ export const Login = () => {
             onChange={updateCredentialHandler}
           />
         </div>
-      </div>
+      </form>
     </>
   );
 
@@ -149,6 +149,8 @@ export const Login = () => {
             <Logo />
           </LogoContainer>
 
+          <Header3>{showResetForm ? "Reset Password" : "Log in"}</Header3>
+
           <InputContainer
             className={classNames({
               ["showPasswordInput"]: showPasswordInput,
@@ -159,44 +161,58 @@ export const Login = () => {
           </InputContainer>
 
           <ButtonContainer>
-            {!showResetForm ? (
-              <>
-                <Button
-                  $buttonType={!password ? "disabled" : "primary"}
-                  className={classNames({ ["showLogin"]: !showPasswordInput })}
-                >
-                  Login
-                  <LoginIcon height={14} />
-                </Button>
-                {!showPasswordInput && (
+            {!displayMessage &&
+              (!showResetForm ? (
+                <>
                   <Button
-                    $buttonType={
-                      disabledRegexStrTest(email) ? "disabled" : "primary"
-                    }
-                    onClick={updateShowPasswordInputHanlder}
-                    className={"continue"}
+                    $buttonType={!password ? "disabled" : "primary"}
+                    className={classNames({
+                      ["showLogin"]: !showPasswordInput,
+                    })}
+                    onClick={() => setDisplayMessage("Successfully logged in!")}
                   >
-                    Continue
-                    <ContinueIcon height={10} />
+                    Login
+                    <LoginIcon height={14} />
                   </Button>
-                )}
 
-                <Button onClick={toggleResetForm}>
-                  Reset password
-                  <ResetIcon height={14} />
-                </Button>
-              </>
-            ) : !displayMessage ? (
-              <Button
-                onClick={passwordResetHandler}
-                $buttonType={
-                  disabledRegexStrTest(resetEmail) ? "disabled" : "primary"
-                }
-              >
-                Continue with password reset
-                <ContinueIcon height={10} />
-              </Button>
-            ) : null}
+                  {!showPasswordInput && (
+                    <Button
+                      $buttonType={
+                        disabledRegexStrTest(email) ? "disabled" : "primary"
+                      }
+                      onClick={updateShowPasswordInputHanlder}
+                      className={"continue"}
+                    >
+                      Continue
+                      <ContinueIcon height={10} />
+                    </Button>
+                  )}
+
+                  <Button
+                    onClick={() => toggleResetForm(true)}
+                    $buttonType={"primary-outlined"}
+                  >
+                    Forgot password
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={passwordResetHandler}
+                    $buttonType={
+                      disabledRegexStrTest(resetEmail) ? "disabled" : "primary"
+                    }
+                  >
+                    Reset
+                  </Button>
+                  <Button
+                    onClick={() => toggleResetForm(false)}
+                    $buttonType={"error"}
+                  >
+                    Cancel
+                  </Button>
+                </>
+              ))}
           </ButtonContainer>
         </LoginFormContainer>
       </LoginFormWrapper>

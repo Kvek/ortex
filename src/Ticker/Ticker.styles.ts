@@ -10,6 +10,10 @@ export const Container = styled.div`
   border-bottom: 1px solid #ffffff24;
   padding: 1em;
 
+  &.noData {
+    border-bottom: none;
+  }
+
   @media ${device.tablet} {
     margin: 0 1em;
     background: #ffffff24;

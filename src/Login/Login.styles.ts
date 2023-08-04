@@ -2,7 +2,14 @@ import styled from "styled-components/macro";
 import { device } from "../constants";
 
 type ButtonProps = {
-  $buttonType?: "primary" | "error" | "disabled";
+  $buttonType?:
+    | "primary"
+    | "error"
+    | "warning"
+    | "disabled"
+    | "primary-outlined"
+    | "error-outlined"
+    | "warning-outlined";
 };
 
 export const LoginContainer = styled.div`
@@ -128,6 +135,52 @@ export const Button = styled.button<ButtonProps>`
   }
 
   ${({ $buttonType = "primary" }) => {
+    if ($buttonType === "warning-outlined") {
+      return `
+        background: transparent;
+        border: 1px solid #eed202;
+
+        svg {
+          fill: #fff;
+        }
+
+
+        &:hover {
+          background: #eed202;
+
+          svg {
+            fill: #000;
+          }
+        }
+      `;
+    }
+
+    if ($buttonType === "warning") {
+      return `
+        background: #eed202;
+        color: #000;
+
+        &:hover {
+          background: #eed202;
+        }
+      `;
+    }
+
+    if ($buttonType === "primary-outlined") {
+      return `
+        background: transparent;
+        border: 1px solid #34B0AB;
+
+        svg {
+          fill: #fff;
+        }
+
+        &:hover {
+          background: #34B0AB;
+        }
+      `;
+    }
+
     if ($buttonType === "primary") {
       return `
         background: #34b0abd1;
@@ -145,6 +198,23 @@ export const Button = styled.button<ButtonProps>`
     if ($buttonType === "error") {
       return `
         background: #cc0000cf;
+        color: #fff;
+        -webkit-tap-highlight-color: transparent;
+
+        svg {
+          fill: #fff;
+        }
+
+        &:hover {
+          background: #cc0000;
+        }
+      `;
+    }
+
+    if ($buttonType === "error-outlined") {
+      return `
+        border: 1px solid #cc0000cf;
+        background: transparent;
         color: #fff;
         -webkit-tap-highlight-color: transparent;
 
@@ -185,4 +255,12 @@ export const MessageContainer = styled.p`
   justify-content: center;
   color: rgba(255, 255, 255, 0.8);
   text-transform: capitalize;
+`;
+
+export const Header3 = styled.h3`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 0;
 `;

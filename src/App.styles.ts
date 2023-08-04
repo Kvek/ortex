@@ -10,6 +10,7 @@ export const Container = styled.div`
 
   @media ${device.tablet} {
     background: none;
+    min-width: 1024px;
   }
 `;
 
@@ -17,6 +18,7 @@ export const AppHeader = styled.header`
   display: flex;
   padding: 1em;
   border-bottom: 1px solid #ffffff24;
+  min-height: 65px;
 
   @media ${device.tablet} {
     display: none;

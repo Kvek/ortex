@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { webSocket } from "rxjs/webSocket";
 import {
   Card,
@@ -26,6 +26,7 @@ import {
 import classNames from "classnames";
 import { format } from "date-fns";
 import { Logo } from "../Logo";
+import { Loading } from "../Loading";
 
 const subscribedExchange = "EURUSD:CUR";
 
@@ -97,20 +98,7 @@ const getFormattedTime = (date: number, formatStr: "Pp" | "p" | "P") => {
 };
 
 export const Ticker = () => {
-  const [tickerData, setTickerData] = useState<PriceStreamData>({
-    s: "",
-    pch: 0,
-    nch: 0,
-    price: 0,
-    dt: 0,
-    state: "",
-    type: "",
-    dhigh: 0,
-    dlow: 0,
-    o: 0,
-    prev: 0,
-    topic: "",
-  });
+  const [tickerData, setTickerData] = useState<PriceStreamData | null>();
 
   useEffect(() => {
     subject.next({ topic: "subscribe", to: subscribedExchange });
@@ -120,40 +108,69 @@ export const Ticker = () => {
         setTickerData(msg as PriceStreamData);
       }
     });
+
+    () => {
+      subject.unsubscribe();
+    };
   }, []);
 
-  const { s, pch, nch, price, dt, state, type, dhigh, dlow, o, prev } =
-    tickerData;
   return (
-    <Container>
+    <Container className={classNames({ ["noData"]: !tickerData })}>
       <CardContainer>
         <Card>
-          <LogoContainer>
-            <Logo />
-          </LogoContainer>
-          <PriceContainer>
-            {getInitials(s)}
+          {(() => {
+            if (!tickerData) return <Loading />;
 
-            <Symbol>
-              <Currency>{s}</Currency>
+            const {
+              s,
+              pch,
+              nch,
+              price,
+              dt,
+              state,
+              type,
+              dhigh,
+              dlow,
+              o,
+              prev,
+            } = tickerData;
 
-              <PriceWrapper>
-                <Price>{price}</Price>
-                <span>{percentageChange({ change: nch, percent: pch })}</span>
-              </PriceWrapper>
+            return (
+              <>
+                <LogoContainer>
+                  <Logo />
+                </LogoContainer>
 
-              <Timestamp>{getFormattedTime(dt, "Pp")}</Timestamp>
-            </Symbol>
-          </PriceContainer>
-          <Date>{getFormattedTime(dt, "P")}</Date>
-          <Hr />
-          <Time>{getFormattedTime(dt, "p")}</Time> <Hr />
-          <PreviousValue>{prev}</PreviousValue> <Hr />
-          <MarketState>{state}</MarketState> <Hr />
-          <MarketType>{type}</MarketType> <Hr />
-          <DailyHigh>{dhigh}</DailyHigh> <Hr />
-          <DailyLow>{dlow}</DailyLow> <Hr />
-          <DayOpen>{o}</DayOpen>
+                <>
+                  <PriceContainer>
+                    {getInitials(s)}
+
+                    <Symbol>
+                      <Currency>{s}</Currency>
+
+                      <PriceWrapper>
+                        <Price>{price}</Price>
+                        <span>
+                          {percentageChange({ change: nch, percent: pch })}
+                        </span>
+                      </PriceWrapper>
+
+                      <Timestamp>{getFormattedTime(dt, "Pp")}</Timestamp>
+                    </Symbol>
+                  </PriceContainer>
+                  <Date>{getFormattedTime(dt, "P")}</Date>
+                  <Hr />
+                  <Time>{getFormattedTime(dt, "p")}</Time> <Hr />
+                  <PreviousValue>{prev}</PreviousValue> <Hr />
+                  <MarketState>{state}</MarketState> <Hr />
+                  <MarketType>{type}</MarketType> <Hr />
+                  <DailyHigh>{dhigh}</DailyHigh> <Hr />
+                  <DailyLow>{dlow}</DailyLow> <Hr />
+                  <DayOpen>{o}</DayOpen>
+                </>
+              </>
+            );
+          })()}
         </Card>
       </CardContainer>
     </Container>
