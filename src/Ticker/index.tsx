@@ -92,7 +92,6 @@ const getFormattedTime = (date: number, formatStr: "Pp" | "p" | "P") => {
     return format(date, formatStr);
   } catch (error) {
     console.error(error);
-    console.log("date", date);
     return "";
   }
 };
