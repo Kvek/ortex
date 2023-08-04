@@ -22,6 +22,7 @@ export const LoginContainer = styled.div`
 export const LoginFormWrapper = styled.div`
   width: 100%;
   height: 100%;
+  margin: 0 1em;
 
   @media ${device.tablet} {
     height: 450px;
@@ -54,9 +55,6 @@ export const LogoContainer = styled.div`
     justify-content: center;
     height: 60px;
     min-height: 60px;
-    border-radius: 10px;
-    padding: 1em 0;
-    color: rgb(136, 136, 136, 0.6);
   }
 `;
 

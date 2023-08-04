@@ -6,6 +6,7 @@ export const Container = styled.div`
   flex-direction: column;
   height: 100%;
   background: rgb(0, 0, 0);
+  min-width: 375px;
 
   @media ${device.tablet} {
     background: none;
@@ -16,7 +17,6 @@ export const AppHeader = styled.header`
   display: flex;
   padding: 1em;
   border-bottom: 1px solid #ffffff24;
-  box-sizing: border-box;
 
   @media ${device.tablet} {
     display: none;

@@ -6,7 +6,6 @@ export const InputContainer = styled.div`
   padding: 0.5em;
   max-height: 85px;
   height: 100%;
-  box-sizing: border-box;
 
   label {
     font-size: 13px;
@@ -40,7 +39,6 @@ export const InputFieldContainer = styled.span`
   height: 45px;
   border: 1px solid #ffffff24;
   border-radius: 10px;
-  box-sizing: border-box;
 
   &.focus {
     border: 1px solid #ffffff82;
